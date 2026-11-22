@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block judul %}Tentang{% endblock %}
+{% block warna %}violet{% endblock %}
+{% block kepala %}
+<span class="badge">Tentang</span>
+<h1>Cara kerja dan keterbatasan</h1>
+<p class="page-lead">Ringkasan alur aplikasi, sumber data, dan hal yang perlu diingat saat membaca hasil simulasi.</p>
+{% endblock %}
+
+{% block konten %}
+<div class="about-grid">
+  <article class="card">
+    <h3>Cara kerja</h3>
+    <ol class="steps">
+      <li><b>Data</b> dibaca dari baris Indonesia pada dataset Kaggle.</li>
+      <li><b>Model</b> logistik dihitung dengan solve_ivp, Euler, atau rumus analitik.</li>
+      <li><b>Kalibrasi</b> mencari r dengan RMSE terkecil terhadap data.</li>
+      <li><b>Skenario</b> mengubah r atau K, lalu membandingkan kurvanya.</li>
+    </ol>
+  </article>
+  <article class="card">
+    <h3>Keterbatasan</h3>
+    <ul class="bullets">
+      <li>K = 100 % adalah asumsi karena data belum menunjukkan tanda jenuh.</li>
+      <li>r dianggap konstan, padahal data punya periode lonjakan 2013 sampai 2018.</li>
+      <li>Penurunan kecil pada 2009 tidak bisa dijelaskan model logistik.</li>
+      <li>Hasil bergantung pada satu dataset dan definisi pengguna internet di dalamnya.</li>
+      <li>Nilai setelah 2023 adalah hasil simulasi dengan asumsi, bukan prediksi.</li>
+    </ul>
+  </article>
+  <article class="card">
+    <h3>Sumber data</h3>
+    <p>Global Internet Usage by Country (2000-2023) oleh meleknur di Kaggle, file <code>internet_usage.csv</code>, baris Indonesia.</p>
+    <p class="muted">Sumber asli dataset tidak tertera pada halaman yang dipakai, jadi cek Data Card di Kaggle sebelum dikutip.</p>
+  </article>
+  <article class="card">
+    <h3>Teknologi</h3>
+    <ul class="bullets">
+      <li>Flask untuk server dan API</li>
+      <li>NumPy dan SciPy untuk simulasi</li>
+      <li>JavaScript ES Modules dan SVG untuk grafik</li>
+    </ul>
+  </article>
+</div>
+
+<article class="card" style="margin-top:24px">
+  <h3>Endpoint API</h3>
+  <div class="table-wrap">
+    <table class="table">
+      <thead><tr><th>Metode</th><th>Rute</th><th>Fungsi</th></tr></thead>
+      <tbody>
+        <tr><td class="kode">GET</td><td class="kode">/api/data</td><td>Data asli, statistik, dan penjelasan grafik</td></tr>
+        <tr><td class="kode">POST</td><td class="kode">/api/simulate</td><td>Simulasi dengan r, K, t_akhir, metode, dan h</td></tr>
+        <tr><td class="kode">POST</td><td class="kode">/api/calibrate</td><td>Mencari r dengan RMSE terkecil untuk K tertentu</td></tr>
+        <tr><td class="kode">GET</td><td class="kode">/api/scenarios</td><td>Perbandingan skenario dan kepekaan terhadap K</td></tr>
+      </tbody>
+    </table>
+  </div>
+</article>
+{% endblock %}

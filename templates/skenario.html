@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block judul %}Skenario{% endblock %}
+{% block warna %}pink{% endblock %}
+{% block kepala %}
+<span class="badge">What-If</span>
+<h1>Bagaimana kalau lajunya berbeda?</h1>
+<p class="page-lead">Dua eksperimen memakai r hasil kalibrasi sebagai pembanding. Pilih batas tahun untuk melihat kurva ke depan.</p>
+{% endblock %}
+
+{% block konten %}
+<div class="toolbar">
+  <label class="field field--inline"><span>Sampai tahun</span>
+    <select id="in-skenario-t">
+      <option value="2030">2030</option>
+      <option value="2035" selected>2035</option>
+      <option value="2040">2040</option>
+      <option value="2050">2050</option>
+    </select>
+  </label>
+</div>
+
+<article class="card">
+  <h3>Grafik perbandingan skenario</h3>
+  <div class="panel">
+    <div class="chart" id="chart-skenario" role="img" aria-label="Grafik perbandingan skenario"></div>
+    <div class="insights" id="skenario-penjelasan"></div>
+  </div>
+</article>
+
+{% from "_makro.html" import judul %}
+{{ judul("02", "Ringkasan tiap skenario", "Angka kunci tiap kurva pada grafik di atas.") }}
+<div class="scenario-grid" id="scenario-cards"></div>
+
+<article class="card">
+  <h3>Kepekaan terhadap batas jenuh K</h3>
+  <p class="muted">Untuk tiap K, r dikalibrasi ulang agar RMSE terkecil.</p>
+  <div class="table-wrap"><table class="table" id="tabel-k"></table></div>
+  <div class="insights" id="tabel-penjelasan"></div>
+</article>
+{% endblock %}

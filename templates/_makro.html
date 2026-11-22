@@ -1,0 +1,6 @@
+{% macro judul(no, teks, sub='') %}
+<div class="sec-head">
+  <span class="sec-no">{{ no }}</span>
+  <div><h2>{{ teks }}</h2>{% if sub %}<p>{{ sub }}</p>{% endif %}</div>
+</div>
+{% endmacro %}

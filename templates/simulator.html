@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block judul %}Simulator{% endblock %}
+{% block warna %}cyan{% endblock %}
+{% block kepala %}
+<span class="badge">Simulator</span>
+<h1>Atur parameter, lihat hasilnya</h1>
+<p class="page-lead">Kurva simulasi dibandingkan dengan data asli. Hasil dihitung ulang setiap parameter berubah.</p>
+{% endblock %}
+
+{% block konten %}
+<div class="sim-layout">
+  <form class="card controls" id="sim-form" data-r0="{{ r }}" autocomplete="off">
+    <h3>Parameter</h3>
+    <label class="field">
+      <span>Laju pertumbuhan r <output id="out-r">{{ angka(r, 4) }}</output></span>
+      <input type="range" id="in-r" min="0.05" max="0.6" step="any" value="{{ r }}">
+    </label>
+    <label class="field">
+      <span>Batas jenuh K (%) <output id="out-K">100</output></span>
+      <input type="range" id="in-K" min="50" max="100" step="1" value="100">
+    </label>
+    <label class="field">
+      <span>Simulasi sampai tahun <output id="out-t">2035</output></span>
+      <input type="range" id="in-t" min="2023" max="2050" step="1" value="2035">
+    </label>
+    <label class="field">
+      <span>Metode numerik</span>
+      <select id="in-metode">
+        <option value="solve_ivp">solve_ivp (RK45)</option>
+        <option value="euler">Euler</option>
+        <option value="analitik">Solusi analitik</option>
+      </select>
+    </label>
+    <label class="field" id="field-h" hidden>
+      <span>Langkah Euler h (tahun)</span>
+      <select id="in-h">
+        <option value="2">2</option>
+        <option value="1" selected>1</option>
+        <option value="0.5">0,5</option>
+        <option value="0.25">0,25</option>
+        <option value="0.1">0,1</option>
+      </select>
+    </label>
+    <div class="btn-row">
+      <button class="btn btn--blue" type="button" id="btn-kalibrasi">Kalibrasi r otomatis</button>
+      <button class="btn btn--white" type="button" id="btn-reset">Reset</button>
+      <button class="btn btn--yellow" type="button" id="btn-csv">Unduh CSV</button>
+    </div>
+    <div class="controls__note">Model yang dihitung<code>dP/dt = r · P · (1 − P/K)</code></div>
+    <p class="hint" id="sim-error" role="alert" hidden></p>
+  </form>
+
+  <div class="sim-results">
+    <div class="tiles" id="sim-tiles"></div>
+
+    <article class="card">
+      <h3>Grafik 1: data asli dan simulasi</h3>
+      <div class="panel panel--tumpuk">
+        <div class="chart" id="chart-sim" role="img" aria-label="Grafik data asli dan hasil simulasi"></div>
+        <div class="insights" id="sim-penjelasan"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>Grafik 2: laju pertambahan pengguna</h3>
+      <div class="panel panel--tumpuk">
+        <div class="chart" id="chart-laju" role="img" aria-label="Grafik laju pertambahan pengguna per tahun"></div>
+        <div class="insights"><article class="insight insight--cyan"><h4>Penjelasan grafik</h4><p id="laju-penjelasan"></p></article></div>
+      </div>
+    </article>
+  </div>
+</div>
+{% endblock %}

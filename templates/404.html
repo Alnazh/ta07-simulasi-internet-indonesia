@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block judul %}Tidak ditemukan{% endblock %}
+{% block header %}{% endblock %}
+{% block konten %}
+<div class="kosong">
+  <strong>404</strong>
+  <h1>Halaman tidak ditemukan</h1>
+  <p class="muted">Alamat yang kamu buka tidak ada di aplikasi ini.</p>
+  <a class="btn btn--yellow" href="{{ url_for('beranda') }}">Kembali ke beranda</a>
+</div>
+{% endblock %}

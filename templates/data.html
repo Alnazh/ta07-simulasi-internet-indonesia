@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block judul %}Data{% endblock %}
+{% block warna %}yellow{% endblock %}
+{% block kepala %}
+<span class="badge">Data</span>
+<h1>Data asli pengguna internet Indonesia</h1>
+<p class="page-lead">24 data tahunan, persentase penduduk yang memakai internet, dari dataset Kaggle oleh meleknur.</p>
+{% endblock %}
+
+{% block konten %}
+<div class="tiles tiles--lima" id="data-tiles"></div>
+
+<article class="card">
+  <h3>Grafik data 2000 sampai 2023</h3>
+  <div class="panel">
+    <div class="chart" id="chart-data" role="img" aria-label="Grafik data pengguna internet"></div>
+    <div class="insights" id="data-penjelasan"></div>
+  </div>
+</article>
+
+<article class="card">
+  <h3>Tabel data</h3>
+  <div class="table-wrap table-wrap--scroll"><table class="table" id="tabel-data"></table></div>
+</article>
+{% endblock %}

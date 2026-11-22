@@ -1,0 +1,33 @@
+<section class="section section--tint" id="skenario">
+  <div class="container">
+    <header class="section__head">
+      <span class="pill pill--violet">What-If</span>
+      <h2>Bagaimana kalau lajunya berbeda?</h2>
+      <p>Dua eksperimen memakai r hasil kalibrasi sebagai pembanding. Pilih batas tahun untuk melihat kurva ke depan.</p>
+    </header>
+
+    <div class="toolbar">
+      <label class="field field--inline"><span>Sampai tahun</span>
+        <select id="in-skenario-t">
+          <option value="2030">2030</option>
+          <option value="2035" selected>2035</option>
+          <option value="2040">2040</option>
+          <option value="2050">2050</option>
+        </select>
+      </label>
+    </div>
+
+    <article class="card">
+      <h3>Perbandingan skenario</h3>
+      <div class="chart" id="chart-skenario" role="img" aria-label="Grafik perbandingan skenario"></div>
+    </article>
+
+    <div class="scenario-grid" id="scenario-cards"></div>
+
+    <article class="card">
+      <h3>Kepekaan terhadap batas jenuh K</h3>
+      <p class="muted">Untuk tiap K, r dikalibrasi ulang agar RMSE terkecil.</p>
+      <div class="table-wrap"><table class="table" id="tabel-k"></table></div>
+    </article>
+  </div>
+</section>

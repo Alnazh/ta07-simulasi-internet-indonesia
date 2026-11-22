@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block judul %}Beranda{% endblock %}
+{% block header %}
+<section class="hero">
+  <div class="container hero__in">
+    <div>
+      <span class="badge">Dynamic System Simulation</span>
+      <h1>Seberapa cepat Indonesia <mark>terhubung</mark> ke internet?</h1>
+      <p class="hero__lead">Model logistik dicocokkan dengan data tahun 2000 sampai 2023. Ubah laju pertumbuhan dan batas jenuh, lalu lihat kurvanya berubah langsung.</p>
+      <div class="hero__actions">
+        <a class="btn btn--yellow" href="{{ url_for('simulator') }}">Coba simulator</a>
+        <a class="btn btn--white" href="{{ url_for('halaman_model') }}">Lihat model</a>
+      </div>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <img class="hero__img" src="{{ url_for('static', filename='img/internet.png') }}" alt="" width="1024" height="930">
+      <svg class="deco deco--wifi" viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="12" fill="#ffd93d"/><circle cx="32" cy="44" r="4" fill="#0d0d1a"/><path d="M19 33a18 18 0 0 1 26 0M11 24a30 30 0 0 1 42 0M26 38a9 9 0 0 1 12 0" fill="none" stroke-linecap="round"/></svg>
+      <svg class="deco deco--chat" viewBox="0 0 64 60"><path d="M8 6h48a5 5 0 0 1 5 5v26a5 5 0 0 1-5 5H34L20 55V42H8a5 5 0 0 1-5-5V11a5 5 0 0 1 5-5z" fill="#ff7ac6"/><circle cx="20" cy="24" r="3.5" fill="#0d0d1a"/><circle cx="32" cy="24" r="3.5" fill="#0d0d1a"/><circle cx="44" cy="24" r="3.5" fill="#0d0d1a"/></svg>
+      <svg class="deco deco--pin" viewBox="0 0 48 64"><path d="M24 3C13 3 5 11 5 22c0 14 19 38 19 38s19-24 19-38C43 11 35 3 24 3z" fill="#ff8a3d"/><circle cx="24" cy="22" r="8" fill="#fff"/></svg>
+      <svg class="deco deco--bars" viewBox="0 0 64 56"><rect x="4" y="34" width="12" height="18" fill="#fff"/><rect x="20" y="24" width="12" height="28" fill="#3ddc97"/><rect x="36" y="14" width="12" height="38" fill="#ff7ac6"/><rect x="52" y="4" width="10" height="48" fill="#ffd93d"/></svg>
+      <svg class="deco deco--star1" viewBox="0 0 40 40"><path d="M20 2l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#ffd93d"/></svg>
+      <svg class="deco deco--star2" viewBox="0 0 40 40"><path d="M20 2l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#fff"/></svg>
+      <span class="sticker sticker--pink">{{ angka(p2023) }} % di 2023</span>
+      <span class="sticker sticker--green">r = {{ angka(r, 4) }}</span>
+      <span class="sticker sticker--yellow">R² {{ angka(ukuran.r2, 4) }}</span>
+    </div>
+  </div>
+</section>
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    {% for _ in range(2) %}
+    <ul>
+      <li>2000: {{ angka(p0) }} %</li><li>2023: {{ angka(p2023) }} %</li><li>r = {{ angka(r, 4) }}</li><li>K = 100 %</li>
+      <li>RMSE {{ angka(ukuran.rmse) }}</li><li>MAE {{ angka(ukuran.mae) }}</li><li>R² {{ angka(ukuran.r2, 4) }}</li><li>24 data tahunan</li>
+    </ul>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block isi %}
+{% from "_makro.html" import judul %}
+<div class="container page-body">
+  <div class="stats">
+    <article class="tile tile--yellow"><span>Pengguna 2000</span><strong>{{ angka(p0) }} %</strong></article>
+    <article class="tile tile--pink"><span>Pengguna 2023</span><strong>{{ angka(p2023) }} %</strong></article>
+    <article class="tile tile--green"><span>Laju r</span><strong>{{ angka(r, 4) }}</strong></article>
+    <article class="tile tile--cyan"><span>RMSE baseline</span><strong>{{ angka(ukuran.rmse) }} poin</strong></article>
+  </div>
+
+  <section class="blok">
+    {{ judul("01", "Hasil baseline", "Data asli dibandingkan dengan simulasi memakai r hasil kalibrasi.") }}
+    <article class="card">
+      <h3>Data asli dan simulasi baseline</h3>
+      <div class="panel">
+        <div class="chart" id="chart-beranda" role="img" aria-label="Grafik data asli dan simulasi baseline"></div>
+        <div class="insights" id="beranda-penjelasan"></div>
+      </div>
+    </article>
+  </section>
+</div>
+
+<section class="band">
+  <div class="container">
+    {{ judul("02", "Model logistik dalam tiga langkah", "Satu persamaan, tiga fase pertumbuhan.") }}
+    <div class="langkah">
+      <article>
+        <h3><span>1</span>Tumbuh cepat</h3>
+        <p>Saat pengguna masih sedikit, pertambahan hampir sebanding dengan jumlah pengguna. Pada 2000 nilainya baru {{ angka(p0) }} %.</p>
+        <code>dP/dt ≈ r · P</code>
+      </article>
+      <article>
+        <h3><span>2</span>Titik belok</h3>
+        <p>Saat P mencapai separuh K, pertambahan paling besar, yaitu rK/4 = {{ angka(r * 100 / 4) }} poin per tahun.</p>
+        <code>P = K / 2</code>
+      </article>
+      <article>
+        <h3><span>3</span>Mendekati jenuh</h3>
+        <p>Sisa ruang tumbuh (1 − P/K) mengecil, sehingga kurva melandai menuju batas jenuh K.</p>
+        <code>(1 − P/K) → 0</code>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="container page-body" style="padding-top:0">
+  <section class="blok">
+    {{ judul("03", "Jelajahi aplikasi", "Pilih halaman sesuai yang ingin dilihat.") }}
+    <div class="menu-grid">
+      <a class="menu menu--blue" href="{{ url_for('simulator') }}"><b>Simulator</b><span>Atur r, K, dan metode numerik, hasil dihitung ulang langsung.</span><i>→</i></a>
+      <a class="menu menu--pink" href="{{ url_for('skenario') }}"><b>Skenario</b><span>Bandingkan laju dan batas jenuh yang berbeda.</span><i>→</i></a>
+      <a class="menu menu--green" href="{{ url_for('halaman_model') }}"><b>Model</b><span>Diagram Stock-Flow, persamaan, dan loop umpan balik.</span><i>→</i></a>
+      <a class="menu menu--yellow" href="{{ url_for('halaman_data') }}"><b>Data</b><span>Data asli 2000 sampai 2023 beserta statistiknya.</span><i>→</i></a>
+      <a class="menu menu--violet" href="{{ url_for('tentang') }}"><b>Tentang</b><span>Cara kerja, API, sumber data, dan keterbatasan.</span><i>→</i></a>
+      <a class="menu menu--cyan" href="{{ url_for('simulator') }}"><b>Kalibrasi</b><span>Cari r dengan RMSE terkecil pada K yang dipilih.</span><i>→</i></a>
+    </div>
+  </section>
+</div>
+{% endblock %}

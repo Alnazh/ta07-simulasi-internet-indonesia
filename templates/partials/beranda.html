@@ -1,0 +1,19 @@
+<section class="hero" id="beranda">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <span class="pill pill--light">Dynamic System Simulation</span>
+      <h1>Simulasi Pertumbuhan Persentase Pengguna Internet di Indonesia</h1>
+      <p class="hero__lead">Model logistik mengikuti data tahun 2000 sampai 2023. Ubah laju pertumbuhan dan batas jenuh, lalu lihat kurvanya berubah langsung.</p>
+      <div class="hero__actions">
+        <a class="btn btn--white" href="#simulator">Coba Simulator</a>
+        <a class="btn btn--ghost" href="#model">Lihat Struktur Model</a>
+      </div>
+    </div>
+    <div class="hero__stats">
+      <article class="stat stat--blue"><span class="stat__label">Pengguna tahun 2000</span><strong>{{ angka(p0) }} %</strong></article>
+      <article class="stat stat--orange"><span class="stat__label">Pengguna tahun 2023</span><strong>{{ angka(p2023) }} %</strong></article>
+      <article class="stat stat--violet"><span class="stat__label">Laju r terkalibrasi</span><strong>{{ angka(r, 4) }} /tahun</strong></article>
+      <article class="stat stat--green"><span class="stat__label">R² baseline</span><strong>{{ angka(ukuran.r2, 4) }}</strong></article>
+    </div>
+  </div>
+</section>

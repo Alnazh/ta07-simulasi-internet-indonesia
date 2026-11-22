@@ -1,0 +1,29 @@
+<section class="section" id="tentang">
+  <div class="container">
+    <header class="section__head">
+      <span class="pill pill--green">Tentang</span>
+      <h2>Cara kerja dan keterbatasan</h2>
+    </header>
+
+    <div class="about-grid">
+      <article class="card">
+        <h3>Cara kerja</h3>
+        <ol class="steps">
+          <li><b>Data</b> dibaca dari baris Indonesia pada dataset Kaggle.</li>
+          <li><b>Model</b> logistik dihitung dengan solve_ivp, Euler, atau rumus analitik.</li>
+          <li><b>Kalibrasi</b> mencari r dengan RMSE terkecil terhadap data.</li>
+          <li><b>Skenario</b> mengubah r atau K, lalu membandingkan kurvanya.</li>
+        </ol>
+      </article>
+      <article class="card">
+        <h3>Keterbatasan</h3>
+        <ul class="bullets">
+          <li>K = 100 % adalah asumsi karena data belum menunjukkan tanda jenuh.</li>
+          <li>r dianggap konstan, padahal data punya periode lonjakan 2013 sampai 2018.</li>
+          <li>Penurunan kecil pada 2009 tidak bisa dijelaskan model logistik.</li>
+          <li>Nilai setelah 2023 adalah hasil simulasi dengan asumsi, bukan prediksi.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>

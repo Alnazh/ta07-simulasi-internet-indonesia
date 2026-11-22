@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block judul %}Model{% endblock %}
+{% block warna %}green{% endblock %}
+{% block kepala %}
+<span class="badge">Struktur Model</span>
+<h1>Satu stock, satu flow, dua loop</h1>
+<p class="page-lead">Persentase pengguna internet adalah stock. Pertambahan pengguna baru adalah flow yang dipengaruhi dua loop umpan balik.</p>
+{% endblock %}
+
+{% block konten %}
+<article class="card diagram">
+  <h3>Diagram Stock-Flow</h3>
+  <svg viewBox="0 0 640 300" role="img" aria-label="Diagram stock-flow pertumbuhan pengguna internet">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+          </defs>
+          <g class="dg-line">
+            <path class="dg-cloud" d="M52 206c-18 0-26-22-8-30 2-16 26-20 34-6 14-8 32 4 26 18 14 6 8 22-8 22z"/>
+            <path d="M110 192H326" marker-end="url(#ah)" stroke-width="5"/>
+            <path class="dg-valve" d="M208 176l28 32v-32l-28 32z"/>
+            <rect class="dg-stock" x="330" y="150" width="180" height="84" rx="8"/>
+            <ellipse class="dg-conv" cx="130" cy="50" rx="70" ry="26"/>
+            <ellipse class="dg-conv" cx="300" cy="50" rx="68" ry="26"/>
+            <ellipse class="dg-conv" cx="490" cy="50" rx="62" ry="26"/>
+            <path class="dg-info" d="M150 76L212 172" marker-end="url(#ah)"/>
+            <path class="dg-info" d="M290 76L232 172" marker-end="url(#ah)"/>
+            <path class="dg-info" d="M428 50H368" marker-end="url(#ah)"/>
+            <path class="dg-info" d="M400 150C400 112 352 104 336 74" marker-end="url(#ah)"/>
+            <path class="dg-info" d="M420 236C420 292 222 292 222 214" marker-end="url(#ah)"/>
+          </g>
+          <circle class="loop loop--b" cx="388" cy="112" r="16"/><text class="loop-t" x="388" y="118" text-anchor="middle">B</text>
+          <circle class="loop loop--r" cx="321" cy="271" r="16"/><text class="loop-t" x="321" y="277" text-anchor="middle">R</text>
+          <g class="dg-text" text-anchor="middle">
+            <text x="420" y="184" class="dg-big">P(t)</text>
+            <text x="420" y="205">Persentase pengguna</text>
+            <text x="420" y="221">internet (stock)</text>
+            <text x="130" y="48">Laju pertumbuhan</text><text x="130" y="64">r</text>
+            <text x="300" y="48">Sisa ruang tumbuh</text><text x="300" y="64">(1 − P/K)</text>
+            <text x="490" y="48">Batas jenuh</text><text x="490" y="64">K = 100 %</text>
+            <text x="120" y="232">Pertambahan pengguna</text><text x="120" y="248">(flow) dP/dt</text>
+            <text x="84" y="158">Belum pakai internet</text>
+          </g>
+        </svg>
+  <div class="insights">
+    {% for p in penjelasan %}
+    <article class="insight insight--{{ p.jenis }}"><h4>{{ p.judul }}</h4><p>{{ p.teks }}</p></article>
+    {% endfor %}
+  </div>
+  <p class="muted">Garis putus-putus adalah hubungan sebab akibat. R adalah loop penguat, B adalah loop penyeimbang.</p>
+</article>
+
+<div class="model-grid">
+  <article class="card equations">
+    <h3>Persamaan</h3>
+    <div class="eq"><span class="eq__label">Diferensial</span><code>dP/dt = r · P · (1 − P/K)</code></div>
+    <div class="eq"><span class="eq__label">Solusi analitik</span><code>P(t) = K / (1 + ((K − P₀)/P₀) · e<sup>−r(t − t₀)</sup>)</code></div>
+    <div class="eq"><span class="eq__label">Euler</span><code>Pₙ₊₁ = Pₙ + h · r · Pₙ · (1 − Pₙ/K)</code></div>
+  </article>
+  <article class="card">
+    <h3>Loop umpan balik</h3>
+    <ul class="loops">
+      <li><b class="tag tag--r">R</b> Makin besar P, makin besar pertambahan pengguna. Kurva naik makin cepat.</li>
+      <li><b class="tag tag--b">B</b> Makin besar P, makin kecil sisa ruang tumbuh (1 − P/K). Pertumbuhan melambat dekat K.</li>
+    </ul>
+    <div class="eq" style="background:var(--p-green);margin-top:16px">
+      <span class="eq__label">Dominasi loop</span>
+      <p style="margin:4px 0 0;font-size:0.86rem">Loop R menang saat P kecil, sehingga kurva naik makin curam. Loop B menang saat P mendekati K, sehingga kurva melandai. Peralihannya terjadi di P = K/2, yaitu titik belok kurva S.</p>
+    </div>
+  </article>
+</div>
+
+<article class="card">
+  <h3>Parameter dan asumsi</h3>
+  <div class="table-wrap">
+    <table class="table">
+      <thead><tr><th>Simbol</th><th>Arti</th><th>Nilai</th><th>Dasar</th></tr></thead>
+      <tbody>
+        <tr><td>P₀</td><td>Pengguna awal tahun 2000</td><td>{{ angka(p0, 4) }} %</td><td>Data</td></tr>
+        <tr><td>r</td><td>Laju pertumbuhan per tahun</td><td>{{ angka(r, 4) }}</td><td>Kalibrasi RMSE minimum</td></tr>
+        <tr><td>K</td><td>Batas jenuh</td><td>100 %</td><td>Asumsi, batas atas sebuah persentase</td></tr>
+      </tbody>
+    </table>
+  </div>
+</article>
+{% endblock %}

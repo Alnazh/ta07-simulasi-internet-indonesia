@@ -1,0 +1,59 @@
+<section class="section" id="simulator">
+  <div class="container">
+    <header class="section__head">
+      <span class="pill pill--blue">Simulator</span>
+      <h2>Atur parameter, lihat hasilnya</h2>
+      <p>Kurva simulasi dibandingkan dengan data asli. Hasil dihitung ulang setiap parameter berubah.</p>
+    </header>
+
+    <div class="sim-layout">
+      <form class="card controls" id="sim-form" data-r0="{{ r }}" autocomplete="off">
+        <h3>Parameter</h3>
+        <label class="field">
+          <span>Laju pertumbuhan r <output id="out-r">0,2385</output></span>
+          <input type="range" id="in-r" min="0.05" max="0.6" step="any" value="{{ r }}">
+        </label>
+        <label class="field">
+          <span>Batas jenuh K (%) <output id="out-K">100</output></span>
+          <input type="range" id="in-K" min="50" max="100" step="1" value="100">
+        </label>
+        <label class="field">
+          <span>Simulasi sampai tahun <output id="out-t">2035</output></span>
+          <input type="range" id="in-t" min="2023" max="2050" step="1" value="2035">
+        </label>
+        <label class="field">
+          <span>Metode numerik</span>
+          <select id="in-metode">
+            <option value="solve_ivp">solve_ivp (RK45)</option>
+            <option value="euler">Euler</option>
+            <option value="analitik">Solusi analitik</option>
+          </select>
+        </label>
+        <label class="field" id="field-h" hidden>
+          <span>Langkah Euler h (tahun)</span>
+          <select id="in-h">
+            <option value="2">2</option>
+            <option value="1" selected>1</option>
+            <option value="0.5">0,5</option>
+            <option value="0.25">0,25</option>
+            <option value="0.1">0,1</option>
+          </select>
+        </label>
+        <div class="btn-row">
+          <button class="btn btn--primary" type="button" id="btn-kalibrasi">Kalibrasi r otomatis</button>
+          <button class="btn btn--outline" type="button" id="btn-reset">Reset</button>
+        </div>
+        <p class="hint" id="sim-error" role="alert" hidden></p>
+      </form>
+
+      <div class="sim-results">
+        <div class="tiles" id="sim-tiles"></div>
+        <article class="card">
+          <h3>Data asli dan simulasi</h3>
+          <div class="chart" id="chart-sim" role="img" aria-label="Grafik data asli dan hasil simulasi"></div>
+        </article>
+        <div class="insights" id="sim-insights"></div>
+      </div>
+    </div>
+  </div>
+</section>
